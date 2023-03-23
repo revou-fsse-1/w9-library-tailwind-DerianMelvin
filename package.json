@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Week 9 assignment",
   "main": "index.js",
-  "author": "{YOUR_NAME}",
+  "scripts": {
+    "tailwind": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+  },
+  "author": "Derian",
   "license": "MIT",
   "devDependencies": {
     "tailwindcss": "^3.2.7"
