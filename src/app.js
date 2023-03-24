@@ -52,7 +52,7 @@ async function searchBooks(e) {
   
       if (title.includes(value) || authors.includes(value) || subjects.includes(value)) {
         let htmlData = `
-          <div class="rounded-lg border border-gray-700">
+          <div class="rounded-lg border border-gray-700 transition-all hover:bg-gray-700">
             <a href="#" class="flex flex-col items-center p-4 md:flex-row">
               <img class="h-72 object-cover object-center mb-4 rounded-lg md:h-40 md:w-24 lg:h-48 lg:w-32" src="${book.image}" alt="${book.title}" />
               <div class="p-5 text-center sm:text-left">
@@ -81,8 +81,8 @@ async function loadBooks() {
 
   books.slice(12 * (urlPage - 1), 12 * urlPage).forEach((book) => {
     let htmlData = `
-      <div class="flex flex-col items-center border rounded-lg border-gray-700">
-        <img class="h-72 object-contain object-center cursor-pointer" src="${
+      <div class="flex flex-col items-center border rounded-lg border-gray-700 group transition-all hover:bg-slate-700 hover:scale-105 hover:shadow-xl">
+        <img class="h-72 object-contain object-center cursor-pointer rounded-lg" src="${
           book.image
         }" alt="${book.title}" />
         <div class="p-5 text-center">
