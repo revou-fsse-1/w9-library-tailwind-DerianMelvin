@@ -1,7 +1,8 @@
-const searchForm = document.getElementById("search-form");
-const searchList = document.getElementById("search-list");
-const bookContainer = document.getElementById("bookContainer");
-
+/*
+  =====================================================================================
+    GLOBAL
+  =====================================================================================
+*/
 async function getBooksData() {
   let response = await fetch("./data.json");
   let json = await response.json();
@@ -32,6 +33,14 @@ function getPageFromUrl() {
   return page;
 }
 
+/*
+  =====================================================================================
+    LIBRARY
+  =====================================================================================
+*/
+const searchForm = document.getElementById("search-form");
+const searchList = document.getElementById("search-list");
+
 async function searchBooks(e) {
   e.preventDefault();
 
@@ -44,12 +53,12 @@ async function searchBooks(e) {
   } else {
     searchList.innerHTML = "";
     searchList.classList.remove("hidden");
-  
+
     books.forEach((book) => {
       const title = book.title.toLowerCase();
       const authors = book.authors.join(", ").toLowerCase();
       const subjects = book.subjects.join(", ").toLowerCase();
-  
+
       if (title.includes(value) || authors.includes(value) || subjects.includes(value)) {
         let htmlData = `
           <div class="rounded-lg border border-gray-700 transition-all hover:bg-gray-700">
@@ -71,24 +80,27 @@ async function searchBooks(e) {
   }
 }
 
+function attachListener() {
+  searchForm.addEventListener("submit", searchBooks);
+}
+
+/*
+  =====================================================================================
+    BOOKS
+  =====================================================================================
+*/
+const bookContainer = document.getElementById("bookContainer");
+
 async function loadBooks() {
   const books = await getBooksData();
-  let urlPage = getPageFromUrl();
-
-  if (urlPage === 0) {
-    urlPage = 1;
-  }
+  let urlPage = getPageFromUrl() === 0 ? 1 : getPageFromUrl();
 
   books.slice(12 * (urlPage - 1), 12 * urlPage).forEach((book) => {
     let htmlData = `
       <div class="flex flex-col items-center border rounded-lg border-gray-700 group transition-all hover:bg-slate-700 hover:scale-105 hover:shadow-xl">
-        <img class="h-72 object-contain object-center cursor-pointer rounded-lg" src="${
-          book.image
-        }" alt="${book.title}" />
+        <img class="h-72 object-contain object-center cursor-pointer rounded-lg" src="${book.image}" alt="${book.title}" />
         <div class="p-5 text-center">
-          <h4 class="mb-2 text-2xl font-bold text-white cursor-pointer">${
-            book.title
-          }</h4>
+          <h4 class="mb-2 text-2xl font-bold text-white cursor-pointer">${book.title}</h4>
           <p class="mb-2 text-gray-500">
             <strong>Author(s): </strong>
             ${book.authors.join(", ")}
@@ -101,11 +113,7 @@ async function loadBooks() {
 }
 
 function previousPage() {
-  let urlPage = getPageFromUrl();
-
-  if (urlPage === 0) {
-    urlPage = 1;
-  }
+  let urlPage = getPageFromUrl() === 0 ? 1 : getPageFromUrl();
 
   if (urlPage === 2) {
     window.location.replace("?Page=1");
@@ -115,11 +123,7 @@ function previousPage() {
 }
 
 function nextPage() {
-  let urlPage = getPageFromUrl();
-
-  if (urlPage === 0) {
-    urlPage = 1;
-  }
+  let urlPage = getPageFromUrl() === 0 ? 1 : getPageFromUrl();
 
   if (urlPage === 1) {
     window.location.replace("?Page=2");
@@ -127,5 +131,3 @@ function nextPage() {
     window.location.reload();
   }
 }
-
-searchForm.addEventListener("submit", searchBooks);
